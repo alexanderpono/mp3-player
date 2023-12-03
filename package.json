@@ -2,7 +2,7 @@
   "name": "mp3-player",
   "version": "1.0.0",
   "description": "mp3-player",
-  "main": "src/player.tsx",
+  "main": "./ui-src/player.tsx",
   "scripts": {
     "test": "jest",
     "build": "webpack --node-env=production",

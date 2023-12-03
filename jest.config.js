@@ -8,11 +8,11 @@ module.exports = {
     collectCoverage: true,
     reporters: ['default'],
     collectCoverageFrom: [
-        'src/**/*.ts*',
-        '!src/**/*.stories.tsx',
-        '!src/**/*.types.ts',
-        '!src/**/*.d.ts',
-        '!src/**/index.ts*'
+        'ui-src/**/*.ts*',
+        '!ui-src/**/*.stories.tsx',
+        '!ui-src/**/*.types.ts',
+        '!ui-src/**/*.d.ts',
+        '!ui-src/**/index.ts*'
     ],
     reporters: [
         'default',

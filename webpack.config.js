@@ -7,7 +7,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 module.exports = {
     plugins: [
         new HtmlWebpackPlugin({
-            template: './src/assets/index-dev.html'
+            template: './ui-src/assets/index-dev.html'
         }),
         new CompressionWebpackPlugin(),
         new MiniCssExtractPlugin({
@@ -17,11 +17,11 @@ module.exports = {
     resolve: {
         extensions: ['.js', '.jsx', '.ts', '.tsx', '.json', '.scss'],
         alias: {
-            '@src': 'src'
+            '@ui-src': path.resolve(__dirname, './ui-src')
         }
     },
     entry: {
-        player: './src/player.tsx'
+        player: './ui-src/player.tsx'
     },
     output: {
         filename: '[name].js',

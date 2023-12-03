@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './PlayerUI.scss';
-import { PlayState, PlayerControllerForUI } from '@src/PlayerController.types';
-import { formatTime } from '@src/adapters/formatTime';
+import { PlayState, PlayerControllerForUI } from '@ui-src/PlayerController.types';
+import { formatTime } from '@ui-src/adapters/formatTime';
 
 interface PlayerUIProps {
     ctrl: PlayerControllerForUI;

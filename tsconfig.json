@@ -2,7 +2,7 @@
   "compilerOptions": {
     "baseUrl": "./",
     "paths": {
-      "@src/*": ["src/*"],
+      "@ui-src/*": ["ui-src/*"],
     },
     "target": "es6",
     "module": "commonjs",
@@ -13,5 +13,5 @@
     "experimentalDecorators": true,
     "outDir": "./temp/tsc-build"
   },  
-  "include": ["src", "custom.d.ts"]
+  "include": ["ui-src", "custom.d.ts"]
 }
