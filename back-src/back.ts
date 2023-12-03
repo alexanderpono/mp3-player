@@ -1,6 +1,6 @@
 console.log(`back.ts! 2`);
 
-import { WS_SERVER_PORT } from '@src/port';
+import { MOUNT_PATH_START, USB_DEVICE, WS_SERVER_PORT } from '@src/port';
 // import { createExpressServer } from 'routing-controllers';
 // import { ApiUserController } from './controllers/ApiUserController';
 // import { ApiAuthController } from './controllers/ApiAuthController';
@@ -21,7 +21,7 @@ import { ServerController } from './ServerController';
 let server: ServerController;
 class Program {
     async main() {
-        server = new ServerController(WS_SERVER_PORT);
+        server = new ServerController(WS_SERVER_PORT, USB_DEVICE, MOUNT_PATH_START);
     }
 
     static create(): Program {

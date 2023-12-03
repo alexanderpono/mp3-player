@@ -1,4 +1,8 @@
+import { UsbDrive, defaultUsbDrive, getUsbDriveFromOutput } from './adapters/usbDriveFromOutput';
+import { Timer } from './ports/Timer';
+import { UsbDriveMonitor } from './ports/UsbDriveMonitor';
 import { WsServer } from './ports/WsServer';
+import { WS } from './ports/WsServer.types';
 
 interface JsonMessageFromUI {
     action: string;
@@ -6,9 +10,15 @@ interface JsonMessageFromUI {
 }
 export class ServerController {
     private ws: WsServer;
+    private usbDriveMonitor: UsbDriveMonitor = null;
+    private timer: Timer = null;
+    private usbDriveMountState: UsbDrive = { ...defaultUsbDrive };
 
-    constructor(port: number) {
+    constructor(port: number, usbDevice: string, private mountPathStart: string) {
         this.ws = new WsServer(this);
+        this.usbDriveMonitor = new UsbDriveMonitor(usbDevice);
+        this.timer = new Timer(this);
+        this.timer.start();
 
         this.ws.openWsServer(port);
         console.log(`ServerController: listening ${port}`);
@@ -16,13 +26,29 @@ export class ServerController {
         console.log('ServerController() constructor()');
     }
 
-    onMessageFromSerial = (text: string) => {
-        console.log('ServerController: Serial:', text);
-        try {
-            this.ws.send(JSON.stringify({ fromSerial: text }));
-        } catch (e) {
-            console.log('ServerController: Error send to WS:', text);
+    onTick = () => {
+        this.usbDriveMonitor.checkUsbDrive().then((output: string) => {
+            const driveInfo = getUsbDriveFromOutput(output, this.mountPathStart);
+
+            if (this.usbDriveMountState.id !== driveInfo.id) {
+                this.onMountStateChange(driveInfo);
+            }
+        });
+    };
+
+    onMountStateChange = (driveInfo: UsbDrive) => {
+        this.usbDriveMountState = driveInfo;
+        if (driveInfo.id === '') {
+            console.log('USB drive unmount');
+            this.ws.send(WS.createWsUsbDriveUnmount());
+        } else {
+            console.log('USB drive mount', driveInfo);
+            this.ws.send(WS.createWsUsbDriveMount());
         }
+    };
+
+    onWsConnect = () => {
+        this.ws.send(WS.createWsHello());
     };
 
     onWsMesage = (message: string) => {

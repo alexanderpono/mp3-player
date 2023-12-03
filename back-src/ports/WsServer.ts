@@ -1,8 +1,8 @@
 import { WebSocket } from 'ws';
-import { createWsHello } from './WsServer.types';
 
 interface MainControllerForWs {
     onWsMesage: (msg: string) => void;
+    onWsConnect: () => void;
 }
 export class WsServer {
     private wsClient;
@@ -18,7 +18,7 @@ export class WsServer {
     onConnect = (wsClient) => {
         this.wsClient = wsClient;
         console.log('WsServer: Новый пользователь');
-        this.wsClient.send(JSON.stringify(createWsHello()));
+        this.ctrl.onWsConnect();
         this.wsClient.on('message', this.onMessage);
 
         this.wsClient.on('close', function () {
@@ -31,7 +31,7 @@ export class WsServer {
         this.ctrl.onWsMesage(message);
     };
 
-    send = (s: string) => {
-        this.wsClient.send(s);
+    send = (o: object) => {
+        this.wsClient.send(JSON.stringify(o));
     };
 }
