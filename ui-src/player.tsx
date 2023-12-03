@@ -1,8 +1,10 @@
+import { WS_SERVER_PORT } from '@src/port';
 import { PlayerController } from './PlayerController';
+import { WsClient } from './ports/WsClient';
 
 console.log('player.tsx!');
 
-new PlayerController().go();
+new PlayerController(new WsClient(WS_SERVER_PORT)).go();
 
 // var player = document.getElementById('music'); // id for audio element
 // var duration; // Duration of audio clip

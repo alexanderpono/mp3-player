@@ -3,6 +3,8 @@
     "baseUrl": "./",
     "paths": {
       "@ui-src/*": ["ui-src/*"],
+      "@back-src/*": ["back-src/*"],
+      "@src/*": ["src/*"]
     },
     "target": "es6",
     "module": "commonjs",
@@ -13,5 +15,5 @@
     "experimentalDecorators": true,
     "outDir": "./temp/tsc-build"
   },  
-  "include": ["ui-src", "custom.d.ts"]
+  "include": ["ui-src", "src", "back-src", "custom.d.ts"]
 }

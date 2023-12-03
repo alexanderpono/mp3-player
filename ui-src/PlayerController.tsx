@@ -2,17 +2,19 @@ import React from 'react';
 import { render } from 'react-dom';
 import { PlayerUI } from './components/PlayerUI';
 import { PlayState } from './PlayerController.types';
+import { WsClient } from './ports/WsClient';
 
 export class PlayerController {
     private player: HTMLAudioElement;
     private fName: string;
 
-    constructor() {}
+    constructor(private ws: WsClient) {}
 
     ifSupportsAudio = () => {
         const supportsAudio = !!document.createElement('audio').canPlayType;
     };
     go = () => {
+        this.ws.connect();
         this.renderUI();
     };
     playFile = (fName: string) => {

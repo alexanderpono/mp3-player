@@ -8,6 +8,7 @@
     "build": "webpack --node-env=production",
     "build-dev": "webpack --node-env=development",
     "dev": "webpack serve --node-env=development",
+    "back": "nodemon --exec ts-node --project tsconfig.json -r tsconfig-paths/register back-src/back.ts",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "ts-check": "npx tsc --skipLibCheck"
@@ -20,6 +21,7 @@
     "copy-webpack-plugin": "^11.0.0",
     "file-saver": "^2.0.5",
     "html-react-parser": "^4.2.1",
+    "nodemon": "^3.0.2",
     "react-redux": "^8.1.1",
     "redux-actions": "2.6.5",
     "redux-devtools-extension": "2.13.9",
