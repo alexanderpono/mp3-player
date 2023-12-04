@@ -6,6 +6,7 @@ export interface PlayerControllerForUI {
     setPlayer: (ref: HTMLAudioElement) => void;
     onBtPlayClick: () => void;
     onBtPauseClick: () => void;
+    onFileClick: (e: React.MouseEvent) => void;
 }
 
 export interface PlayState {
@@ -15,4 +16,5 @@ export interface PlayState {
     isPlaying: boolean;
     fileName: string;
     apiAnswer: GetFilesAnswer;
+    selectedFile: string;
 }

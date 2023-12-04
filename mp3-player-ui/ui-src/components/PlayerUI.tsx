@@ -4,6 +4,7 @@ import { PlayState, PlayerControllerForUI } from '@ui-src/PlayerController.types
 import { formatTime } from '@ui-src/adapters/formatTime';
 import { FileStats } from '@ui-src/ports/FileStorageApi';
 import { DIRECTORY } from '@src/const';
+import cn from 'classnames';
 
 interface PlayerUIProps {
     ctrl: PlayerControllerForUI;
@@ -94,7 +95,18 @@ export const PlayerUI: React.FC<PlayerUIProps> = ({ ctrl, playState }) => {
                 <section>
                     {playState.apiAnswer?.files.map((file: FileStats) => {
                         const caption = file.size === DIRECTORY ? `[${file.name}]` : file.name;
-                        return <p>{caption}</p>;
+                        return (
+                            <p
+                                key={file.name}
+                                data-file={file.name}
+                                onClick={ctrl.onFileClick}
+                                className={cn({
+                                    [styles.sel]: file.name === playState.selectedFile
+                                })}
+                            >
+                                {caption}
+                            </p>
+                        );
                     })}
                 </section>
             </div>

@@ -6,6 +6,7 @@ import { UsbDriveContent } from './ports/UsbDriveContent';
 import { UsbDriveMonitor } from './ports/UsbDriveMonitor';
 import { WsServer } from './ports/WsServer';
 import { WS } from './ports/WsServer.types';
+import path from 'path';
 
 interface JsonMessageFromUI {
     action: string;
@@ -106,12 +107,30 @@ export class ServerController {
         console.log('ServerController onRestGetFolder response=', 1);
         response.header('Access-Control-Allow-Origin', '*');
         response.setHeader('content-type', 'application/json');
-        this.fsInput.getDirStats(this.usbDriveMountState.mountPath, '', [], 0).then((files) => {
-            console.log('files=', files);
-            response.send({
+        this.fsInput
+            .getDirStats(
+                this.usbDriveMountState.mountPath,
+                '',
+                ['System Volume Information', '.Trash-1000'],
+                0
+            )
+            .then((files) => {
+                console.log('files=', files);
+                response.send({
                     files
-                }
-            );
-        });
+                });
+            });
+    };
+
+    onRestGetFile = (request, response) => {
+        console.log('ServerController onRestGetFile()');
+        response.header('Access-Control-Allow-Origin', '*');
+
+        let p = path.join(this.usbDriveMountState.mountPath, request.params.id);
+        // response.send(`GET file ${request.params.id} ${p}`);
+
+        console.log('ServerController onRestGetFile() p=', p);
+
+        response.sendFile(p);
     };
 }

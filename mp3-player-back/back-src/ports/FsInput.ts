@@ -47,7 +47,7 @@ export class FsInput {
             result.push({ name: localPath, size });
         }
         const filtered = result.filter((file: FileStats) => {
-            return file.size === DIRECTORY || file.name.indexOf('.mp3') >= 0
+            return file.name.toUpperCase().indexOf('.MP3') >= 0;
         });
 
         return filtered;

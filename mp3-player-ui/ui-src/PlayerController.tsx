@@ -4,16 +4,24 @@ import { PlayerUI } from './components/PlayerUI';
 import { PlayState } from './PlayerController.types';
 import { WsClient } from './ports/WsClient';
 import { WsMessage } from '@ui-src/ports/WsMessage';
-import { WsEvent } from '@src/const';
-import { FileStorageApi, GetFilesAnswer } from './ports/FileStorageApi';
+import { DIRECTORY, REST_SERVER_PORT, WsEvent } from '@src/const';
+import {
+    FileStats,
+    FileStorageApi,
+    GetFilesAnswer,
+    defaultGetFilesAnswer
+} from './ports/FileStorageApi';
 import { AxiosResponse } from 'axios';
 
 export class PlayerController {
     private player: HTMLAudioElement;
     private fName: string;
-    private apiAnswer: GetFilesAnswer;
+    private apiAnswer: GetFilesAnswer = { ...defaultGetFilesAnswer };
+    private selectedFile: string;
 
-    constructor(private ws: WsClient, private fileStorage: FileStorageApi) {}
+    constructor(private ws: WsClient, private fileStorage: FileStorageApi) {
+        this.selectedFile = '';
+    }
 
     ifSupportsAudio = () => {
         const supportsAudio = !!document.createElement('audio').canPlayType;
@@ -25,16 +33,12 @@ export class PlayerController {
     };
     playFile = (fName: string) => {
         this.fName = fName;
-        this.player.src = '/' + fName;
+        this.player.src = fName;
     };
 
     onUIMount = () => {
         console.log('onUIMount() this.player=', this.player);
         this.player.addEventListener('timeupdate', this.onTimeUpdate, false);
-        setTimeout(() => {
-            console.log('timeout()');
-            this.playFile('01-Sirius.mp3');
-        }, 1000);
     };
 
     renderUI = () => {
@@ -49,7 +53,8 @@ export class PlayerController {
             percentage,
             isPlaying,
             fileName: this.fName,
-            apiAnswer: this.apiAnswer
+            apiAnswer: this.apiAnswer,
+            selectedFile: this.selectedFile
         };
         render(<PlayerUI ctrl={this} playState={playState} />, document.getElementById('player'));
     };
@@ -76,6 +81,13 @@ export class PlayerController {
     setPlayer = (audioEl: HTMLAudioElement) => (this.player = audioEl);
 
     onBtPlayClick = () => {
+        if (this.isFile(this.selectedFile)) {
+            const fileUrl = `http://localhost:${REST_SERVER_PORT}/file${this.selectedFile}`;
+            console.log('onFileClick() fileUrl=', fileUrl);
+            this.playFile(fileUrl);
+            this.renderUI();
+        }
+
         this.player.play();
     };
 
@@ -109,5 +121,37 @@ export class PlayerController {
                     console.log('catch() err=', err);
                 });
         }
+        if (wsMessage.event === WsEvent.UNMOUNT) {
+            console.log('onWsMessage() unmount!');
+            this.apiAnswer = { ...defaultGetFilesAnswer };
+            this.selectedFile = '';
+            this.player.pause();
+            this.player.src = '';
+            this.renderUI();
+        }
+    };
+
+    isFile = (fileName: string): boolean => {
+        console.log('isFile() fileName=', fileName);
+        console.log('isFile() this.apiAnswer=', this.apiAnswer);
+        const recordIndex = this.apiAnswer.files.findIndex(
+            (file: FileStats) => file.name === fileName
+        );
+        if (recordIndex < 0) {
+            console.error('selected file is not found in files', fileName, this.apiAnswer);
+            return false;
+        }
+        const fileInfo = this.apiAnswer.files[recordIndex];
+        console.log('isFile() fileInfo=', fileInfo);
+        return fileInfo.size !== DIRECTORY;
+    };
+
+    onFileClick = (e: React.MouseEvent<HTMLDivElement>) => {
+        const target = e.target as HTMLDivElement;
+        console.log('onFileClick() target=', target);
+        const fileName = target.dataset.file;
+        console.log('onFileClick() fileName=', fileName);
+        this.selectedFile = fileName;
+        this.renderUI();
     };
 }

@@ -9,6 +9,9 @@ export interface FileStats {
 export interface GetFilesAnswer {
     files: FileStats[];
 }
+export const defaultGetFilesAnswer: GetFilesAnswer = {
+    files: []
+};
 
 export class FileStorageApi {
     getDir = (): Promise<AxiosResponse<GetFilesAnswer>> => {
