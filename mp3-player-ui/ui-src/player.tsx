@@ -1,4 +1,4 @@
-import 'reflect-metadata';
+// import 'reflect-metadata';
 import { WS_SERVER_PORT } from '@config/const';
 import { PlayerController } from './PlayerController';
 import { WsClient } from './ports/WsClient';

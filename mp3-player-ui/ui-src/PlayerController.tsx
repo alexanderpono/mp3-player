@@ -112,7 +112,8 @@ export class PlayerController {
 
     onWsMessage = (message: string) => {
         console.log('onWsMessage() message=', message);
-        const wsMessage = new WsMessage().fromJSON(JSON.parse(message));
+        // const wsMessage = new WsMessage().fromJSON(JSON.parse(message));
+        const wsMessage = JSON.parse(message);
         console.log('onWsMessage() wsMessage=', wsMessage);
         if (wsMessage.event === WsEvent.MOUNT) {
             console.log('onWsMessage() mount!');
