@@ -1,0 +1,42 @@
+{
+  "name": "mp3-player",
+  "version": "1.0.0",
+  "description": "mp3-player",
+  "main": "./back-src/back.ts",
+  "scripts": {
+    "test": "jest",
+    "build": "webpack --node-env=production",
+    "build-dev": "webpack --node-env=development",
+    "ui": "webpack serve --node-env=development",
+    "back": "nodemon",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build",
+    "ts-check": "npx tsc --skipLibCheck"
+  },
+  "keywords": [],
+  "author": "Alexander Ponomarenko",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2",
+    "nodemon": "^3.0.2",
+    "ts-serializable": "^3.0.48",
+    "ws": "^8.14.2"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^5.15.0",
+    "@testing-library/react": "^12.1.2",
+    "@testing-library/user-event": "^13.5.0",
+    "@types/classnames": "2.2.11",
+    "@types/jest": "^29.5.2",
+    "@types/jquery": "^3.5.16",
+    "@types/node": "^20.4.1",
+    "@types/react": "^18.2.8",
+    "@types/react-dom": "^18.2.6",
+    "@types/redux-actions": "^2.6.2",
+    "@typescript-eslint/eslint-plugin": "^5.60.0",
+    "@typescript-eslint/parser": "^5.60.0",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.1.6",
+    "typescript-plugin-css-modules": "^5.0.1"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "baseUrl": "./",
+    "paths": {
+      "@ui-src/*": ["ui-src/*"],
+      "@back-src/*": ["back-src/*"],
+      "@src/*": ["src/*"]
+    },
+    "target": "es6",
+    "module": "commonjs",
+    "jsx": "react",
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "experimentalDecorators": true,
+    "outDir": "./temp/tsc-build"
+  },  
+  "include": ["ui-src", "src", "back-src", "custom.d.ts"]
+}
