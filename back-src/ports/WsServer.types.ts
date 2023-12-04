@@ -1,11 +1,13 @@
+import { WsEvent } from '@src/const';
+
 export const WS = {
     createWsHello: () => ({
-        fromServer: 'Привет'
+        event: WsEvent.HELLO
     }),
     createWsUsbDriveMount: () => ({
-        event: 'USB drive mount'
+        event: WsEvent.MOUNT
     }),
     createWsUsbDriveUnmount: () => ({
-        event: 'USB drive unmount'
+        event: WsEvent.UNMOUNT
     })
 };

@@ -3,12 +3,16 @@ import { render } from 'react-dom';
 import { PlayerUI } from './components/PlayerUI';
 import { PlayState } from './PlayerController.types';
 import { WsClient } from './ports/WsClient';
+import { WsMessage } from '@src/WsMessage';
+import { WsEvent } from '@src/const';
+import { FileStorageApi } from './ports/FileStorageApi';
+import { AxiosResponse } from 'axios';
 
 export class PlayerController {
     private player: HTMLAudioElement;
     private fName: string;
 
-    constructor(private ws: WsClient) {}
+    constructor(private ws: WsClient, private fileStorage: FileStorageApi) {}
 
     ifSupportsAudio = () => {
         const supportsAudio = !!document.createElement('audio').canPlayType;
@@ -16,6 +20,7 @@ export class PlayerController {
     go = () => {
         this.ws.connect();
         this.renderUI();
+        return this;
     };
     playFile = (fName: string) => {
         this.fName = fName;
@@ -83,5 +88,22 @@ export class PlayerController {
 
     onTimeUpdate = () => {
         this.renderUI();
+    };
+
+    onWsMessage = (message: string) => {
+        console.log('onWsMessage() message=', message);
+        const wsMessage = new WsMessage().fromJSON(JSON.parse(message));
+        console.log('onWsMessage() wsMessage=', wsMessage);
+        if (wsMessage.event === WsEvent.MOUNT) {
+            console.log('onWsMessage() mount!');
+            this.fileStorage
+                .getDir()
+                .then((apiAnswer: AxiosResponse<string>) => {
+                    console.log('then() apiAnswer=', apiAnswer.data);
+                })
+                .catch((err) => {
+                    console.log('catch() err=', err);
+                });
+        }
     };
 }

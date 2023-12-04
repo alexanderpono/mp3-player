@@ -1,5 +1,7 @@
 import { UsbDrive, defaultUsbDrive, getUsbDriveFromOutput } from './adapters/usbDriveFromOutput';
+import { RestServer } from './ports/RestServer';
 import { Timer } from './ports/Timer';
+import { UsbDriveContent } from './ports/UsbDriveContent';
 import { UsbDriveMonitor } from './ports/UsbDriveMonitor';
 import { WsServer } from './ports/WsServer';
 import { WS } from './ports/WsServer.types';
@@ -13,15 +15,19 @@ export class ServerController {
     private usbDriveMonitor: UsbDriveMonitor = null;
     private timer: Timer = null;
     private usbDriveMountState: UsbDrive = { ...defaultUsbDrive };
+    private rest: RestServer;
+    private usbDriveContent: UsbDriveContent = null;
 
-    constructor(port: number, usbDevice: string, private mountPathStart: string) {
+    constructor(
+        port: number,
+        private usbDevice: string,
+        private mountPathStart: string,
+        private restPort: number
+    ) {
         this.ws = new WsServer(this);
-        this.usbDriveMonitor = new UsbDriveMonitor(usbDevice);
-        this.timer = new Timer(this);
-        this.timer.start();
 
         this.ws.openWsServer(port);
-        console.log(`ServerController: listening ${port}`);
+        console.log(`ServerController: WS listening ${port}`);
 
         console.log('ServerController() constructor()');
     }
@@ -49,6 +55,14 @@ export class ServerController {
 
     onWsConnect = () => {
         this.ws.send(WS.createWsHello());
+
+        this.usbDriveMonitor = new UsbDriveMonitor(this.usbDevice);
+        this.usbDriveContent = new UsbDriveContent();
+        this.timer = new Timer(this);
+        this.timer.start();
+        this.rest = new RestServer(this.restPort, this);
+        this.rest.run();
+        console.log(`ServerController: REST listening ${this.restPort}`);
     };
 
     onWsMesage = (message: string) => {
@@ -67,5 +81,23 @@ export class ServerController {
         } catch (error) {
             console.log('Ws: Ошибка', error);
         }
+    };
+
+    onRestGetRoot = (req, response) => {
+        response.send('Hello World');
+    };
+
+    onRestGetFolder = (request, response) => {
+        console.log('ServerController onRestGetFolder response=', 2);
+        response.header('Access-Control-Allow-Origin', '*');
+        response.send(`GET folder ${request.params.id}`);
+    };
+
+    onRestGetRootFolder = (request, response) => {
+        console.log('ServerController onRestGetFolder response=', 1);
+        response.header('Access-Control-Allow-Origin', '*');
+        response.send(
+            `GET folder ROOT usbDriveMountState=${JSON.stringify(this.usbDriveMountState)}`
+        );
     };
 }

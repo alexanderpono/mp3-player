@@ -7,7 +7,7 @@
     "test": "jest",
     "build": "webpack --node-env=production",
     "build-dev": "webpack --node-env=development",
-    "dev": "webpack serve --node-env=development",
+    "ui": "webpack serve --node-env=development",
     "back": "nodemon",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
@@ -19,13 +19,15 @@
   "dependencies": {
     "axios": "^1.6.2",
     "copy-webpack-plugin": "^11.0.0",
+    "express": "^4.18.2",
     "file-saver": "^2.0.5",
     "html-react-parser": "^4.2.1",
     "nodemon": "^3.0.2",
     "react-redux": "^8.1.1",
     "redux-actions": "2.6.5",
     "redux-devtools-extension": "2.13.9",
-    "redux-saga": "^1.2.3"
+    "redux-saga": "^1.2.3",
+    "ts-serializable": "^3.0.48"
   },
   "devDependencies": {
     "@babel/core": "^7.22.1",

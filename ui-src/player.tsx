@@ -1,10 +1,14 @@
-import { WS_SERVER_PORT } from '@src/port';
+import 'reflect-metadata';
+import { WS_SERVER_PORT } from '@src/const';
 import { PlayerController } from './PlayerController';
 import { WsClient } from './ports/WsClient';
+import { FileStorageApi } from './ports/FileStorageApi';
 
 console.log('player.tsx!');
 
-new PlayerController(new WsClient(WS_SERVER_PORT)).go();
+const wsClient = new WsClient(WS_SERVER_PORT);
+const ctrl = new PlayerController(wsClient, new FileStorageApi()).go();
+wsClient.setCtrl(ctrl);
 
 // var player = document.getElementById('music'); // id for audio element
 // var duration; // Duration of audio clip
