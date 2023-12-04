@@ -2,6 +2,8 @@ import React from 'react';
 import styles from './PlayerUI.scss';
 import { PlayState, PlayerControllerForUI } from '@ui-src/PlayerController.types';
 import { formatTime } from '@ui-src/adapters/formatTime';
+import { FileStats } from '@ui-src/ports/FileStorageApi';
+import { DIRECTORY } from '@src/const';
 
 interface PlayerUIProps {
     ctrl: PlayerControllerForUI;
@@ -89,6 +91,12 @@ export const PlayerUI: React.FC<PlayerUIProps> = ({ ctrl, playState }) => {
                     {formatTime(Math.floor(playState.duration))}
                 </div>
                 <div>{playState.fileName}</div>
+                <section>
+                    {playState.apiAnswer?.files.map((file: FileStats) => {
+                        const caption = file.size === DIRECTORY ? `[${file.name}]` : file.name;
+                        return <p>{caption}</p>;
+                    })}
+                </section>
             </div>
         </section>
     );

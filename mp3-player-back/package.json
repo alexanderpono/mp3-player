@@ -5,12 +5,7 @@
   "main": "./back-src/back.ts",
   "scripts": {
     "test": "jest",
-    "build": "webpack --node-env=production",
-    "build-dev": "webpack --node-env=development",
-    "ui": "webpack serve --node-env=development",
     "back": "nodemon",
-    "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build",
     "ts-check": "npx tsc --skipLibCheck"
   },
   "keywords": [],
@@ -35,6 +30,10 @@
     "@types/redux-actions": "^2.6.2",
     "@typescript-eslint/eslint-plugin": "^5.60.0",
     "@typescript-eslint/parser": "^5.60.0",
+    "eslint": "^8.43.0",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "prettier": "^2.8.8",
     "ts-node": "^10.9.1",
     "typescript": "^5.1.6",
     "typescript-plugin-css-modules": "^5.0.1"

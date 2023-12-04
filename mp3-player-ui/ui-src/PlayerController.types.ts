@@ -1,3 +1,5 @@
+import { GetFilesAnswer } from './ports/FileStorageApi';
+
 export interface PlayerControllerForUI {
     onSoundFileChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
     onUIMount: () => void;
@@ -12,4 +14,5 @@ export interface PlayState {
     percentage: number;
     isPlaying: boolean;
     fileName: string;
+    apiAnswer: GetFilesAnswer;
 }

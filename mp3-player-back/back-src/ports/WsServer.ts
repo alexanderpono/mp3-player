@@ -5,7 +5,7 @@ interface MainControllerForWs {
     onWsConnect: () => void;
 }
 export class WsServer {
-    private wsClient;
+    private wsClient = null;
     private wsServer = null;
 
     constructor(private ctrl: MainControllerForWs) {}
@@ -23,6 +23,7 @@ export class WsServer {
 
         this.wsClient.on('close', function () {
             console.log('WsServer: Пользователь отключился');
+            this.wsClient = null;
         });
     };
 
@@ -32,6 +33,8 @@ export class WsServer {
     };
 
     send = (o: object) => {
-        this.wsClient.send(JSON.stringify(o));
+        if (this.wsClient) {
+            this.wsClient.send(JSON.stringify(o));
+        }
     };
 }
