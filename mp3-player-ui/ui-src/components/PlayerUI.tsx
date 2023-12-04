@@ -3,7 +3,7 @@ import styles from './PlayerUI.scss';
 import { PlayState, PlayerControllerForUI } from '@ui-src/PlayerController.types';
 import { formatTime } from '@ui-src/adapters/formatTime';
 import { FileStats } from '@ui-src/ports/FileStorageApi';
-import { DIRECTORY } from '@src/const';
+import { DIRECTORY } from '@config/const';
 import cn from 'classnames';
 import { ProgressBox } from './ProgressBox';
 
@@ -16,7 +16,6 @@ export const PlayerUI: React.FC<PlayerUIProps> = ({ ctrl, playState }) => {
     const audioRef = React.useRef(null);
 
     React.useEffect(() => {
-        // console.log('audioRef.current=', audioRef.current);
         ctrl.setPlayer(audioRef.current);
         ctrl.onUIMount();
     }, []);

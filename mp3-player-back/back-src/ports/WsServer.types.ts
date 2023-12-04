@@ -1,4 +1,4 @@
-import { WsEvent } from '@src/const';
+import { WsEvent } from '@config/WsEvent';
 
 export const WS = {
     createWsHello: () => ({

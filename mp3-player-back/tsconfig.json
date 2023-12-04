@@ -4,7 +4,8 @@
     "paths": {
       "@ui-src/*": ["ui-src/*"],
       "@back-src/*": ["back-src/*"],
-      "@src/*": ["src/*"]
+      "@src/*": ["src/*"],
+      "@config/*": ["../mp3-player-config/*"]
     },
     "target": "es6",
     "module": "commonjs",

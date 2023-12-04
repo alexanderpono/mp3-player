@@ -4,7 +4,8 @@ import { PlayerUI } from './components/PlayerUI';
 import { PlayState } from './PlayerController.types';
 import { WsClient } from './ports/WsClient';
 import { WsMessage } from '@ui-src/ports/WsMessage';
-import { DIRECTORY, REST_SERVER_PORT, WsEvent } from '@src/const';
+import { DIRECTORY, REST_SERVER_PORT } from '@config/const';
+import { WsEvent } from '@config/WsEvent';
 import {
     FileStats,
     FileStorageApi,

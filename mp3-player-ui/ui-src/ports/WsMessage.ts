@@ -1,5 +1,5 @@
 import { Serializable, jsonProperty } from 'ts-serializable';
-import { WsEvent } from '@src/const';
+import { WsEvent } from '@config/WsEvent';
 
 export class WsMessage extends Serializable {
     @jsonProperty(String)

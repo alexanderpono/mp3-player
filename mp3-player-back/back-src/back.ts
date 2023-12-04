@@ -1,6 +1,4 @@
-console.log(`back.ts! 2`);
-
-import { MOUNT_PATH_START, REST_SERVER_PORT, USB_DEVICE, WS_SERVER_PORT } from '@src/const';
+import { MOUNT_PATH_START, REST_SERVER_PORT, USB_DEVICE, WS_SERVER_PORT } from '@config/const';
 
 import { ServerController } from './ServerController';
 

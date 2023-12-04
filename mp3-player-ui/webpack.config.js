@@ -17,7 +17,8 @@ module.exports = {
     resolve: {
         extensions: ['.js', '.jsx', '.ts', '.tsx', '.json', '.scss'],
         alias: {
-            '@ui-src': path.resolve(__dirname, './ui-src')
+            '@ui-src': path.resolve(__dirname, './ui-src'),
+            '@config': path.resolve(__dirname, '../mp3-player-config/')
         }
     },
     entry: {

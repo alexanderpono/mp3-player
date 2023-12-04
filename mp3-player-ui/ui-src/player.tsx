@@ -1,5 +1,5 @@
 import 'reflect-metadata';
-import { WS_SERVER_PORT } from '@src/const';
+import { WS_SERVER_PORT } from '@config/const';
 import { PlayerController } from './PlayerController';
 import { WsClient } from './ports/WsClient';
 import { FileStorageApi } from './ports/FileStorageApi';

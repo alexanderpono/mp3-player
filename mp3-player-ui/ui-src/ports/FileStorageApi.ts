@@ -1,4 +1,4 @@
-import { REST_SERVER_PORT } from '@src/const';
+import { REST_SERVER_PORT } from '@config/const';
 import axios, { AxiosResponse } from 'axios';
 
 export interface FileStats {

@@ -29,7 +29,8 @@ module.exports = {
                 root: ['./src'],
                 alias: {
                     '@src': './src',
-                    '@uisrc': './uisrc'
+                    '@uisrc': './uisrc',
+                    '@config': '../mp3-player-config'
                 }
             }
         ]
