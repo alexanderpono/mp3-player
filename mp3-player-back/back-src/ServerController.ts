@@ -133,4 +133,13 @@ export class ServerController {
 
         response.sendFile(p);
     };
+
+    onRestEject = (request, response) => {
+        console.log('onRestEject()');
+        response.header('Access-Control-Allow-Origin', '*');
+        response.send(`EJECT OK`);
+
+        this.usbDriveMonitor.eject();
+        this.ws.send(WS.createWsUsbDriveUnmount());
+    };
 }

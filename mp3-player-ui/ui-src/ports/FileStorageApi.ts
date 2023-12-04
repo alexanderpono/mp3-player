@@ -18,14 +18,16 @@ export class FileStorageApi {
         return axios
             .get(`http://localhost:${REST_SERVER_PORT}/folder/`)
             .then(function (response) {
-                // handle success
                 console.log('getDir() response=', response);
                 return response;
             })
             .catch(function (error) {
-                // handle error
                 console.log('getDir() error=', error);
                 return error;
             });
+    };
+
+    eject = () => {
+        return axios.get(`http://localhost:${REST_SERVER_PORT}/eject/`);
     };
 }

@@ -6,7 +6,10 @@ export interface PlayerControllerForUI {
     setPlayer: (ref: HTMLAudioElement) => void;
     onBtPlayClick: () => void;
     onBtPauseClick: () => void;
+    onBtStopClick: () => void;
+    onBtEjectClick: () => void;
     onFileClick: (e: React.MouseEvent) => void;
+    onProgressClick: (progress: number) => void;
 }
 
 export interface PlayState {

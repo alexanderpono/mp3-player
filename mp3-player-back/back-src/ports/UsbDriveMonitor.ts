@@ -14,4 +14,31 @@ export class UsbDriveMonitor {
             });
         });
     };
+
+    eject = () => {
+        console.log('UsbDriveMonitor eject()');
+        const p = new Promise((resolve, reject) => {
+            exec(`eject /dev/${this.device}`, function callback(error, stdout, stderr) {
+                if (error) {
+                    resolve(error);
+                    return;
+                }
+                resolve(stdout);
+            });
+        });
+        p.then((msg) => {
+            return new Promise((resolve, reject) => {
+                exec(
+                    `udisksctl power-off -b /dev/${this.device}`,
+                    function callback(error, stdout, stderr) {
+                        if (error) {
+                            resolve(error);
+                            return;
+                        }
+                        resolve(stdout);
+                    }
+                );
+            });
+        });
+    };
 }

@@ -95,8 +95,13 @@ export class PlayerController {
         this.player.pause();
     };
 
+    onBtStopClick = () => {
+        this.onBtPauseClick();
+        this.resetPlayer();
+    };
+
     resetPlayer = () => {
-        this.player.src = '';
+        this.playFile('');
         this.player.currentTime = 0;
     };
 
@@ -126,7 +131,7 @@ export class PlayerController {
             this.apiAnswer = { ...defaultGetFilesAnswer };
             this.selectedFile = '';
             this.player.pause();
-            this.player.src = '';
+            this.resetPlayer();
             this.renderUI();
         }
     };
@@ -153,5 +158,18 @@ export class PlayerController {
         console.log('onFileClick() fileName=', fileName);
         this.selectedFile = fileName;
         this.renderUI();
+    };
+
+    onProgressClick = (percent: number) => {
+        if (this.player.src) {
+            const newTimePos = (this.player.duration * percent) / 100;
+
+            this.player.currentTime = newTimePos;
+        }
+    };
+
+    onBtEjectClick = () => {
+        console.log('onBtEjectClick()');
+        this.fileStorage.eject();
     };
 }
