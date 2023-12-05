@@ -16,12 +16,12 @@ module.exports = {
         '@babel/preset-typescript'
     ],
     plugins: [
-        [
-            '@babel/plugin-proposal-decorators',
-            {
-                legacy: true
-            }
-        ],
+        // [
+        //     '@babel/plugin-proposal-decorators',
+        //     {
+        //         legacy: true
+        //     }
+        // ],
         '@babel/plugin-proposal-class-properties',
         [
             'module-resolver',
@@ -29,7 +29,7 @@ module.exports = {
                 root: ['./src'],
                 alias: {
                     '@src': './src',
-                    '@uisrc': './uisrc',
+                    '@ui-src': './ui-src',
                     '@config': '../mp3-player-config'
                 }
             }

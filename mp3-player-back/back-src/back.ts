@@ -8,7 +8,10 @@ import { OSType } from '@config/OSType';
 let server: ServerController;
 class Program {
     async main() {
-        const usbDriveMonitor = OS === OSType.linux ? new UsbDriveMonitor(USB_DEVICE) : new UsbDriveMonitorWin(USB_DEVICE);        
+        const usbDriveMonitor =
+            OS === OSType.linux
+                ? new UsbDriveMonitor(USB_DEVICE)
+                : new UsbDriveMonitorWin(USB_DEVICE);
         server = new ServerController(
             WS_SERVER_PORT,
             USB_DEVICE,

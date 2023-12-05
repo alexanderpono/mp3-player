@@ -38,7 +38,6 @@ export class PlayerController {
     };
 
     onUIMount = () => {
-        console.log('onUIMount() this.player=', this.player);
         this.player.addEventListener('timeupdate', this.onTimeUpdate, false);
     };
 
@@ -112,7 +111,6 @@ export class PlayerController {
 
     onWsMessage = (message: string) => {
         console.log('onWsMessage() message=', message);
-        // const wsMessage = new WsMessage().fromJSON(JSON.parse(message));
         const wsMessage = JSON.parse(message);
         console.log('onWsMessage() wsMessage=', wsMessage);
         if (wsMessage.event === WsEvent.MOUNT) {
@@ -121,7 +119,6 @@ export class PlayerController {
                 .getDir()
                 .then((apiAnswer: AxiosResponse<GetFilesAnswer>) => {
                     this.apiAnswer = apiAnswer.data;
-                    console.log('then() this.apiAnswer=', this.apiAnswer);
                     this.renderUI();
                 })
                 .catch((err) => {

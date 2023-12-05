@@ -1,4 +1,5 @@
 import { GetFilesAnswer } from './ports/FileStorageApi';
+import packageJson from '../package.json';
 
 export interface PlayerControllerForUI {
     onSoundFileChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -21,3 +22,5 @@ export interface PlayState {
     apiAnswer: GetFilesAnswer;
     selectedFile: string;
 }
+
+export const APP_VERSION = packageJson.version;

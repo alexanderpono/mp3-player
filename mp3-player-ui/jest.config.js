@@ -14,16 +14,16 @@ module.exports = {
         '!ui-src/**/*.d.ts',
         '!ui-src/**/index.ts*'
     ],
-    reporters: [
-        'default',
-        [
-            './node_modules/jest-html-reporter',
-            {
-                pageTitle: 'Test Report',
-                outputPath: './temp/testResult.html'
-            }
-        ]
-    ],
+    // reporters: [
+    //     'default',
+    //     [
+    //         './node_modules/jest-html-reporter',
+    //         {
+    //             pageTitle: 'Test Report',
+    //             outputPath: './temp/testResult.html'
+    //         }
+    //     ]
+    // ],
     setupFilesAfterEnv: ['<rootDir>/internals/jestSettings.js'],
     transform: {
         '^.+\\.(js|jsx|ts|tsx)$': '<rootDir>/node_modules/babel-jest',
