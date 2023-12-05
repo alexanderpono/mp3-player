@@ -14,7 +14,6 @@ interface JsonMessageFromUI {
 }
 export class ServerController {
     private ws: WsServer;
-    private usbDriveMonitor: UsbDriveMonitor = null;
     private timer: Timer = null;
     private usbDriveMountState: UsbDrive = { ...defaultUsbDrive };
     private rest: RestServer;
@@ -25,14 +24,14 @@ export class ServerController {
         port: number,
         private usbDevice: string,
         private mountPathStart: string,
-        private restPort: number
+        private restPort: number,
+        private usbDriveMonitor: UsbDriveMonitor
     ) {
         this.ws = new WsServer(this);
 
         this.ws.openWsServer(port);
         console.log(`ServerController: WS listening ${port}`);
 
-        this.usbDriveMonitor = new UsbDriveMonitor(this.usbDevice);
         this.usbDriveContent = new UsbDriveContent();
         this.timer = new Timer(this);
         this.rest = new RestServer(this.restPort, this);
@@ -118,6 +117,12 @@ export class ServerController {
                 console.log('files=', files);
                 response.send({
                     files
+                });
+            })
+            .catch((err) => {
+                console.log('err=', err);
+                response.send({
+                    files: []
                 });
             });
     };

@@ -1,7 +1,7 @@
 import { exec } from 'child_process';
 
 export class UsbDriveMonitor {
-    constructor(private device: string) {}
+    constructor(protected device: string) {}
 
     checkUsbDrive = (): Promise<string> => {
         return new Promise((resolve, reject) => {
