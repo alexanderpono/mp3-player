@@ -4,24 +4,22 @@ module.exports = {
             '@babel/preset-env',
             {
                 targets: {
-                    chrome: '41',
-                    ie: '10'
+                    node: '5'
                 },
                 debug: false,
                 useBuiltIns: 'entry',
                 corejs: '2.6.11'
             }
         ],
-        '@babel/preset-react',
         '@babel/preset-typescript'
     ],
     plugins: [
-        [
-            '@babel/plugin-proposal-decorators',
-            {
-                legacy: true
-            }
-        ],
+        // [
+        //     '@babel/plugin-proposal-decorators',
+        //     {
+        //         legacy: true
+        //     }
+        // ],
         '@babel/plugin-proposal-class-properties',
         [
             'module-resolver',
@@ -29,7 +27,8 @@ module.exports = {
                 root: ['./src'],
                 alias: {
                     '@src': './src',
-                    '@uisrc': './uisrc'
+                    '@back-src': './back-src',
+                    '@config': '../mp3-player-config'
                 }
             }
         ]
