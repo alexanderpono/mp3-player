@@ -18,9 +18,12 @@ export class PlayerController {
     private fName: string;
     private apiAnswer: GetFilesAnswer = { ...defaultGetFilesAnswer };
     private selectedFile: string;
+    private playedFile: string;
 
     constructor(private ws: WsClient, private fileStorage: FileStorageApi) {
         this.selectedFile = '';
+        this.fName = '';
+        this.playedFile = '';
     }
 
     ifSupportsAudio = () => {
@@ -86,6 +89,7 @@ export class PlayerController {
             const fileUrl = `http://localhost:${REST_SERVER_PORT}/file${this.selectedFile}`;
             console.log('onFileClick() fileUrl=', fileUrl);
             this.playFile(fileUrl);
+            this.playedFile = this.selectedFile;
             this.renderUI();
         }
 
@@ -112,6 +116,36 @@ export class PlayerController {
 
     onTimeUpdate = () => {
         this.renderUI();
+        if (this.player?.ended) {
+            this.onFinishSong();
+        }
+    };
+
+    onFinishSong = () => {
+        const hasNextSong = this.hasNextSong();
+        if (hasNextSong) {
+            const nextSongName = this.getNextSong();
+            this.selectFile(nextSongName);
+            this.onBtPlayClick();
+        }
+    };
+
+    getPlayedSongIndex = () => {
+        return this.apiAnswer.files.findIndex((file: FileStats) => {
+            return file.name === this.playedFile;
+        });
+    };
+    hasNextSong = () => {
+        const playedSongIndex = this.getPlayedSongIndex();
+        return playedSongIndex < this.apiAnswer.files.length - 1;
+    };
+
+    getNextSong = (): string => {
+        if (!this.hasNextSong()) {
+            return '';
+        }
+        const playedSongIndex = this.getPlayedSongIndex();
+        return this.apiAnswer.files[playedSongIndex + 1].name;
     };
 
     onWsMessage = (message: string) => {
@@ -141,8 +175,6 @@ export class PlayerController {
     };
 
     isFile = (fileName: string): boolean => {
-        console.log('isFile() fileName=', fileName);
-        console.log('isFile() this.apiAnswer=', this.apiAnswer);
         const recordIndex = this.apiAnswer.files.findIndex(
             (file: FileStats) => file.name === fileName
         );
@@ -151,17 +183,19 @@ export class PlayerController {
             return false;
         }
         const fileInfo = this.apiAnswer.files[recordIndex];
-        console.log('isFile() fileInfo=', fileInfo);
         return fileInfo.size !== DIRECTORY;
+    };
+
+    selectFile = (fileName: string) => {
+        this.selectedFile = fileName;
+        this.renderUI();
     };
 
     onFileClick = (e: React.MouseEvent<HTMLDivElement>) => {
         const target = e.target as HTMLDivElement;
-        console.log('onFileClick() target=', target);
         const fileName = target.dataset.file;
         console.log('onFileClick() fileName=', fileName);
-        this.selectedFile = fileName;
-        this.renderUI();
+        this.selectFile(fileName);
     };
 
     onProgressClick = (percent: number) => {
