@@ -3,7 +3,6 @@ import { render } from 'react-dom';
 import { PlayerUI } from './components/PlayerUI';
 import { PlayState } from './PlayerController.types';
 import { WsClient } from './ports/WsClient';
-import { WsMessage } from '@ui-src/ports/WsMessage';
 import { DIRECTORY, REST_SERVER_PORT } from '@config/const';
 import { WsEvent } from '@config/WsEvent';
 import {
@@ -40,6 +39,8 @@ export class PlayerController {
     onUIMount = () => {
         this.player.addEventListener('timeupdate', this.onTimeUpdate, false);
     };
+
+    isPaused = () => this.player?.paused;
 
     renderUI = () => {
         const duration = this.player?.duration ? this.player?.duration : 0;
@@ -92,7 +93,11 @@ export class PlayerController {
     };
 
     onBtPauseClick = () => {
-        this.player.pause();
+        if (this.isPaused()) {
+            this.player.play();
+        } else {
+            this.player.pause();
+        }
     };
 
     onBtStopClick = () => {
